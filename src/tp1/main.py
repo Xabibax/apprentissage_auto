@@ -84,7 +84,7 @@ def fleuriste():
 
     write_clf_pdf(clf, "max_leaf_nodes_to_3.pdf")
 
-    score = cross_val_score(clf, X_test, y_test, cv=5)
+    score = cross_val_score(clf, X, y, cv=5)
     print(f"The cross val scores for the Decision Tree is :\n"
           f"{score}")
     print(f"The description of the cross val scores for the Decision Tree is :\n"

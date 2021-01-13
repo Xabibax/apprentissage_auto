@@ -6,8 +6,16 @@ import pandas as pd
 import pydot
 
 from sklearn import tree
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.datasets import make_blobs
+from sklearn.datasets import make_circles
+from sklearn.datasets import make_moons
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.metrics import classification_report
+from sklearn.svm import SVC
 
 import matplotlib.pyplot as plt
 
@@ -24,7 +32,6 @@ def function_name():
 
 
 def jardiniere():
-    from sklearn.datasets import load_iris
 
     iris = load_iris()
     # print(iris.keys())
@@ -32,7 +39,6 @@ def jardiniere():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-    from sklearn.preprocessing import StandardScaler
 
     scaler = StandardScaler()
     scaler.fit(X_train)
@@ -40,7 +46,6 @@ def jardiniere():
     X_train = scaler.transform(X_train)
     X_test = scaler.transform(X_test)
 
-    from sklearn.neighbors import KNeighborsClassifier
 
     clf = KNeighborsClassifier()
     clf.fit(X_train, y_train)
@@ -55,7 +60,6 @@ def jardiniere():
     )
     print(conf_mat)
 
-    from sklearn.metrics import classification_report
     clf_rep = classification_report(y_test, y_predict)
     print(clf_rep)
 
@@ -76,18 +80,17 @@ def jardiniere():
 
 
 def magicien():
-    from sklearn.datasets import make_blobs
 
-    X, y = make_blobs(n_samples=100, centers=2, random_state=6)
+    # X, y = make_blobs(n_samples=100, centers=2, random_state=6)
+    # X, y = make_circles(n_samples=400, factor=.3, noise=.05)
+    X, y = make_moons(n_samples=400, noise=.3)
 
     plt.figure()
     plt.scatter(X[:, 0], X[:, 1], c=y)
-    plt.show()
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-    from sklearn.svm import SVC
-    clf = SVC(kernel='linear')
+    clf = SVC(kernel='rbf')
     clf.fit(X_train, y_train)
 
     ax = plt.gca()
@@ -100,11 +103,12 @@ def magicien():
     xy = np.vstack([XX.ravel(), YY.ravel()]).T
     Z = clf.decision_function(xy).reshape(XX.shape)
 
-    ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-''--'])
+    ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
 
     ax.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=100, linewidths=1, facecolors='none',
                edgecolors='k')
 
+    plt.show()
     print(f"{function_name()} done.\n")
 
 
